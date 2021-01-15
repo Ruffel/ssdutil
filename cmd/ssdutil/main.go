@@ -1,7 +1,15 @@
 package main
 
-import "fmt"
+import (
+	"os"
+
+	"github.com/Ruffel/ssdutil/pkg/cmd/root"
+)
 
 func main() {
-	fmt.Println("ssdutil")
+	cmd := root.NewCmdRoot()
+
+	if _, err := cmd.ExecuteC(); err != nil {
+		os.Exit(1)
+	}
 }
