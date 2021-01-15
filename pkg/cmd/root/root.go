@@ -1,6 +1,7 @@
 package root
 
 import (
+	"github.com/Ruffel/ssdutil/pkg/cmd/list"
 	"github.com/spf13/cobra"
 )
 
@@ -11,6 +12,8 @@ func NewCmdRoot() *cobra.Command {
 		Run: func(cmd *cobra.Command, args []string) {
 		},
 	}
+
+	cmd.AddCommand(list.NewCmdList())
 
 	return cmd
 }
