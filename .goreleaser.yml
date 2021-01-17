@@ -17,8 +17,8 @@ before:
     - go generate ./...
 
 builds:
-  - main: ./cmd/ssdutil/main.go
-    id: "cli"
+  - <<: &build_defaults
+    main: ./cmd/ssdutil/main.go
     binary: ssdutil
     ldflags:
       - -s -w -X github.com/Ruffel/ssdutil/internal/build.Version={{.Version}}
@@ -28,6 +28,29 @@ builds:
       - linux
       - windows
       - darwin
+
+
+builds:
+  - <<: &build_defaults
+      binary: ssdutil
+      main: ./cmd/ssdutil/main.go
+      ldflags:
+        - -s -w -X github.com/Ruffel/ssdutil/internal/build.Version={{.Version}}
+    id: macos
+    goos: [darwin]
+    goarch: [amd64]
+
+  - <<: *build_defaults
+    id: linux
+    goos: [linux]
+    goarch: [386, amd64]
+    env:
+      - CGO_ENABLED=0
+
+  - <<: *build_defaults
+    id: windows
+    goos: [windows]
+    goarch: [386, amd64]
 
 archives:
   - id: nix
