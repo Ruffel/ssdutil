@@ -20,6 +20,8 @@ builds:
   - main: ./cmd/ssdutil/main.go
     id: "cli"
     binary: ssdutil
+    ldflags:
+      - -s -w -X github.com/Ruffel/ssdutil/internal/build.Version={{.Version}}
     env:
       - CGO_ENABLED=0
     goos:
