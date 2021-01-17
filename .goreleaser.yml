@@ -1,6 +1,19 @@
+project_name: ssdutil
+
+release:
+  # Don't mark release as production ready if it contains a non-standard tag
+  prerelease: auto
+
+  # Don't auto publish the project in case something goes wrong
+  draft: true
+
+  # Override the name template to include the project name in a specific format
+  name_template: "SSDUtil {{.Version}}"
+
 before:
   hooks:
     - go mod download
+    - go mod tidy
     - go generate ./...
 
 builds:
@@ -15,22 +28,12 @@ builds:
       - darwin
 
 archives:
-  - replacements:
-      darwin: Darwin
-      linux: Linux
-      windows: Windows
-      386: i386
-      amd64: x86_64
+  - id: nix
+    builds: [macos, linux]
+    replacements:
+      darwin: macOS
+    format: tar.gz
 
-checksum:
-  name_template: "checksums.txt"
-
-snapshot:
-  name_template: "{{ .Tag }}-next"
-
-changelog:
-  skip: true
-
-release:
-  draft: true
-  prerelease: auto
+  - id: windows
+    builds: [windows]
+    format: zip
