@@ -5,7 +5,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
-func NewCmdRoot() *cobra.Command {
+func NewCmdRoot(version string) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "ssdutil",
 		Short: "CLI tool for querying and managing storage devices",
@@ -13,6 +13,11 @@ func NewCmdRoot() *cobra.Command {
 		},
 	}
 
+	// Add --version option to command line
+	cmd.Version = version
+	cmd.Flags().Bool("version", false, "Show version information")
+
+	// Subcommands
 	cmd.AddCommand(list.NewCmdList())
 
 	return cmd

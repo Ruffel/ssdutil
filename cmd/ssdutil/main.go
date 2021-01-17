@@ -8,9 +8,7 @@ import (
 )
 
 func main() {
-	println("ssdutil " + build.Version)
-
-	cmd := root.NewCmdRoot()
+	cmd := root.NewCmdRoot(build.Version)
 
 	if _, err := cmd.ExecuteC(); err != nil {
 		os.Exit(1)
