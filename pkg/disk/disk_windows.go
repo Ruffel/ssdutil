@@ -44,9 +44,9 @@ type MsftMediaType uint16
 
 const (
 	MSFT_MEDIA_TYPE_UNSPECIFIED = 0
-	MSFT_MEDIA_TYPE_HDD         = 1
-	MSFT_MEDIA_TYPE_SSD         = 2
-	MSFT_MEDIA_TYPE_SCM         = 3
+	MSFT_MEDIA_TYPE_HDD         = 3
+	MSFT_MEDIA_TYPE_SSD         = 4
+	MSFT_MEDIA_TYPE_SCM         = 5
 )
 
 type BusType uint16
