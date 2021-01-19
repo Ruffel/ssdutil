@@ -1,7 +1,8 @@
 package disk
 
 type Disk struct {
-	Name string
+	Name         string
+	SerialNumber string
 }
 
 type ListDrivesResponse struct {

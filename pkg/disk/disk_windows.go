@@ -80,7 +80,8 @@ func (response *ListDrivesResponse) load() error {
 	for _, diskDrive := range diskDrives {
 
 		disk := &Disk{
-			Name: strings.TrimSpace(*diskDrive.Name),
+			Name:         strings.TrimSpace(*diskDrive.Name),
+			SerialNumber: strings.TrimSpace(*diskDrive.SerialNumber),
 		}
 
 		disks = append(disks, disk)

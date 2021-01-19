@@ -27,6 +27,7 @@ func showDrives(cmd *cobra.Command, args []string) error {
 
 	for _, drive := range response.Disks {
 		println(drive.Name)
+		println(drive.SerialNumber)
 	}
 
 	return nil
