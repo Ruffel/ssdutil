@@ -9,6 +9,21 @@ const (
 	INTERFACE_TYPE_NVME                  = iota
 )
 
+func (it InterfaceType) String() string {
+	switch it {
+	case INTERFACE_TYPE_UNKNOWN:
+		return "Unknown"
+	case INTERFACE_TYPE_ATA:
+		return "SATA"
+	case INTERFACE_TYPE_SCSI:
+		return "SCSI"
+	case INTERFACE_TYPE_NVME:
+		return "NVMe"
+	}
+
+	return "Unknown"
+}
+
 type MediaType int
 
 const (
@@ -17,6 +32,21 @@ const (
 	MEDIA_TYPE_SSD               = iota
 	MEDIA_TYPE_NVME              = iota
 )
+
+func (mt MediaType) String() string {
+	switch mt {
+	case MEDIA_TYPE_UNKNOWN:
+		return "Unknown"
+	case MEDIA_TYPE_HDD:
+		return "HDD"
+	case MEDIA_TYPE_SSD:
+		return "SSD"
+	case MEDIA_TYPE_NVME:
+		return "NVMe"
+	}
+
+	return "Unknown"
+}
 
 type Disk struct {
 	Name            string

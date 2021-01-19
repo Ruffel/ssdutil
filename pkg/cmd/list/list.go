@@ -28,7 +28,7 @@ func showDrives(cmd *cobra.Command, args []string) error {
 	}
 
 	for _, drive := range response.Disks {
-		println(fmt.Sprintf("name: %s, model: %s, serial: %s, firmware: %s", drive.Name, drive.Model, drive.SerialNumber, drive.FirmwareVersion))
+		println(fmt.Sprintf("name: %s, model: %s, serial: %s, firmware: %s, media: %v, interface: %v", drive.Name, drive.Model, drive.SerialNumber, drive.FirmwareVersion, drive.MediaType, drive.InterfaceType))
 	}
 
 	return nil

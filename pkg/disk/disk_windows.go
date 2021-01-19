@@ -131,6 +131,8 @@ func (response *ListDrivesResponse) load() error {
 			Model:           strings.TrimSpace(*diskDrive.Model),
 			SerialNumber:    strings.TrimSpace(*diskDrive.SerialNumber),
 			FirmwareVersion: strings.TrimSpace(*physicalDisk.FirmwareVersion),
+			MediaType:       toMediaType(physicalDisk),
+			InterfaceType:   toInterfaceType(physicalDisk),
 		}
 
 		disks = append(disks, disk)
