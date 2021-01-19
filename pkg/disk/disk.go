@@ -1,9 +1,10 @@
 package disk
 
 type Disk struct {
-	Name         string
-	Model        string
-	SerialNumber string
+	Name            string
+	Model           string
+	SerialNumber    string
+	FirmwareVersion string
 }
 
 type ListDrivesResponse struct {

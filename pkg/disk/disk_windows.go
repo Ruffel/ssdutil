@@ -1,6 +1,7 @@
 package disk
 
 import (
+	"errors"
 	"strings"
 
 	"github.com/StackExchange/wmi"
@@ -75,14 +76,28 @@ func (response *ListDrivesResponse) load() error {
 		return err
 	}
 
+	physicalDrives, err := getPhysicalDisks()
+
+	if err != nil {
+		return err
+	}
+
 	disks := make([]*Disk, 0)
 
 	for _, diskDrive := range diskDrives {
 
+		// Find the physical drive using the serial number, is there are safer way to do this?
+		physicalDisk := findPhysicalDrive(physicalDrives, *diskDrive.SerialNumber)
+
+		if physicalDisk == nil {
+			return errors.New("Failed to find physical drive with serial number " + *diskDrive.SerialNumber)
+		}
+
 		disk := &Disk{
-			Name:         strings.TrimSpace(*diskDrive.Name),
-			Model:        strings.TrimSpace(*diskDrive.Model),
-			SerialNumber: strings.TrimSpace(*diskDrive.SerialNumber),
+			Name:            strings.TrimSpace(*diskDrive.Name),
+			Model:           strings.TrimSpace(*diskDrive.Model),
+			SerialNumber:    strings.TrimSpace(*diskDrive.SerialNumber),
+			FirmwareVersion: strings.TrimSpace(*physicalDisk.FirmwareVersion),
 		}
 
 		disks = append(disks, disk)
@@ -90,5 +105,17 @@ func (response *ListDrivesResponse) load() error {
 
 	response.Disks = disks
 
+	return nil
+}
+
+// NOTE: Returning a pointer to a slice element seems wrong, is it?
+func findPhysicalDrive(disks []MSFT_PhysicalDisk, serial string) *MSFT_PhysicalDisk {
+	for _, disk := range disks {
+		if *disk.SerialNumber == serial {
+			return &disk
+		}
+	}
+
+	// NOTE: Should we be returning a nullable pointer, or using an error tuple?
 	return nil
 }
