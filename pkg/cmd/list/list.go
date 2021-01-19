@@ -1,6 +1,8 @@
 package list
 
 import (
+	"fmt"
+
 	"github.com/Ruffel/ssdutil/pkg/disk"
 	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
@@ -26,8 +28,7 @@ func showDrives(cmd *cobra.Command, args []string) error {
 	}
 
 	for _, drive := range response.Disks {
-		println(drive.Name)
-		println(drive.SerialNumber)
+		println(fmt.Sprintf("name: %s, model: %s, serial: %s", drive.Name, drive.Model, drive.SerialNumber))
 	}
 
 	return nil
