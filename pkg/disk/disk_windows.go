@@ -81,6 +81,7 @@ func (response *ListDrivesResponse) load() error {
 
 		disk := &Disk{
 			Name:         strings.TrimSpace(*diskDrive.Name),
+			Model:        strings.TrimSpace(*diskDrive.Model),
 			SerialNumber: strings.TrimSpace(*diskDrive.SerialNumber),
 		}
 

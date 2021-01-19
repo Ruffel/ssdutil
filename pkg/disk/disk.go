@@ -2,6 +2,7 @@ package disk
 
 type Disk struct {
 	Name         string
+	Model        string
 	SerialNumber string
 }
 
