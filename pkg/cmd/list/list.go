@@ -1,9 +1,10 @@
 package list
 
 import (
-	"fmt"
+	"os"
 
 	"github.com/Ruffel/ssdutil/pkg/disk"
+	"github.com/olekukonko/tablewriter"
 	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
 )
@@ -27,9 +28,14 @@ func showDrives(cmd *cobra.Command, args []string) error {
 		return errors.Wrap(err, "Failed to fetch drive information from host system")
 	}
 
+	table := tablewriter.NewWriter(os.Stdout)
+	table.SetHeader([]string{"Name", "Model", "Serial", "Firmware", "Interface"})
+
 	for _, drive := range response.Disks {
-		println(fmt.Sprintf("name: %s, model: %s, serial: %s, firmware: %s, media: %v, interface: %v", drive.Name, drive.Model, drive.SerialNumber, drive.FirmwareVersion, drive.MediaType, drive.InterfaceType))
+		table.Append([]string{drive.Name, drive.Model, drive.SerialNumber, drive.FirmwareVersion, drive.InterfaceType.String()})
 	}
+
+	table.Render()
 
 	return nil
 }
