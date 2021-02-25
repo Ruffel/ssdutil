@@ -1,6 +1,7 @@
 package list
 
 import (
+	"fmt"
 	"os"
 	"strings"
 
@@ -26,7 +27,7 @@ func NewCmdList() *cobra.Command {
 		},
 	}
 
-	cmd.Flags().StringVarP(&opts.Interface, "interface", "i", "all", "Filter by interface type: {all|nvme|sata}")
+	cmd.Flags().StringVarP(&opts.Interface, "interface", "i", "all", "Filter by interface type: {all|nvme|sata|unknown|scsi}")
 
 	return cmd
 }
@@ -42,9 +43,26 @@ func showDrives(opts *ListOptions) error {
 	table := tablewriter.NewWriter(os.Stdout)
 	table.SetHeader([]string{"Name", "Model", "Serial", "Firmware", "Interface"})
 
+	var filterInterface disk.InterfaceType
+
+	switch strings.ToLower(opts.Interface) {
+	case "nvme":
+		filterInterface = disk.INTERFACE_TYPE_NVME
+	case "sata":
+		filterInterface = disk.INTERFACE_TYPE_ATA
+	case "scsi":
+		filterInterface = disk.INTERFACE_TYPE_SCSI
+	case "unknown":
+		filterInterface = disk.INTERFACE_TYPE_UNKNOWN
+	case "all":
+		break
+	default:
+		return fmt.Errorf("Invalid interface type: %s", opts.Interface)
+	}
+
 	for _, drive := range response.Disks {
 		if opts.Interface != "all" {
-			if !strings.EqualFold(opts.Interface, drive.InterfaceType.String()) {
+			if filterInterface != drive.InterfaceType {
 				continue
 			}
 		}
