@@ -70,7 +70,9 @@ func showDrives(opts *ListOptions) error {
 		table.Append([]string{drive.Name, drive.Model, drive.SerialNumber, drive.FirmwareVersion, drive.InterfaceType.String()})
 	}
 
-	table.Render()
+	if table.NumLines() != 0 {
+		table.Render()
+	}
 
 	return nil
 }
